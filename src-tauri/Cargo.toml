@@ -1,0 +1,43 @@
+[package]
+name = "cf-tunnel-manager"
+version = "0.1.0"
+description = "Cloudflare Tunnel 可视化管理工具"
+authors = ["you"]
+edition = "2021"
+
+[lib]
+name = "cf_tunnel_manager_lib"
+crate-type = ["staticlib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+tokio = { version = "1", features = ["full"] }
+anyhow = "1"
+thiserror = "1"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+regex = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+notify = "6"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-appender = "0.2"
+image = "0.25"
+[target.'cfg(windows)'.dependencies]
+win32job = "2"
+windows = { version = "0.58", features = ["Win32_System_Threading", "Win32_Foundation", "Win32_System_Diagnostics_ToolHelp"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true
